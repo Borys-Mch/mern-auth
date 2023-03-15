@@ -1,9 +1,18 @@
 import React from "react";
 
-const Form = ({ username, setUsername, password, setPassword, label }) => {
+const Form = ({
+  username,
+  setUsername,
+  password,
+  setPassword,
+  label,
+  onSubmit,
+}) => {
   return (
     <div className="flex justify-center">
-      <form className="p-10 flex flex-col border border-gray-200 rounded-2xl shadow-xl space-y-8">
+      <form
+        onSubmit={onSubmit}
+        className="p-10 flex flex-col border border-gray-200 rounded-2xl shadow-xl space-y-8">
         <h2 className="text-center text-xl font-bold">{label}</h2>
         <div>
           <label htmlFor="username" className="pr-2 text-lg">
