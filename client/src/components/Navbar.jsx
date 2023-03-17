@@ -1,7 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const [cookies, setCookies] = useCookies(["access_token"]);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    setCookies("access_token", "");
+    window.localStorage.removeItem("userID");
+    navigate("/auth");
+  };
+
   return (
     <div className="bg-[#03202a] border-b-4 border-[#ff5e00]">
       <div className="container mx-auto py-5 flex flex-row justify-between items-center text-[#ffe66b]">
@@ -17,11 +28,19 @@ const Navbar = () => {
             Saved Recipes
           </Link>
         </nav>
-        <Link
-          to="/auth"
-          className=" p-3 border border-[#ff5e00] rounded-2xl hover:text-white">
-          Login/Register
-        </Link>
+        {!cookies.access_token ? (
+          <Link
+            to="/auth"
+            className=" p-3 border border-[#ff5e00] rounded-2xl hover:text-white">
+            Login/Register
+          </Link>
+        ) : (
+          <button
+            onClick={logout}
+            className=" p-3 border border-[#ff5e00] rounded-2xl hover:text-white">
+            Logout
+          </button>
+        )}
       </div>
     </div>
   );
