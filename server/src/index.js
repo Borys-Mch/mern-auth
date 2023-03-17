@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 
 import { userRouter } from "./routes/users.js";
+import { recipesRouter } from "./routes/recipes.js";
 
 const app = express();
 dotenv.config();
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/auth", userRouter);
+app.use("/recipes", recipesRouter);
 
 mongoose.connect(MONGODB_URI);
 
