@@ -14,6 +14,19 @@ const CreateRecipe = () => {
     const { name, value } = event.target;
     setRecipe({ ...recipe, [name]: value });
   };
+
+  const handleIngredientChange = (event, idx) => {
+    const { value } = event.target;
+    const ingredients = recipe.ingredients;
+    ingredients[idx] = value;
+    setRecipe({ ...recipe, ingredients });
+  };
+
+  const addIngredient = () => {
+    setRecipe({ ...recipe, ingredients: [...recipe.ingredients, ""] });
+  };
+
+  console.log(recipe);
   return (
     <div className="container mx-auto flex flex-col">
       <h2 className="mt-5 text-center text-lg font-bold">Create Recipe</h2>
@@ -40,7 +53,22 @@ const CreateRecipe = () => {
         <label htmlFor="ingredients" className="text-lg">
           Ingredients
         </label>
-
+        {recipe.ingredients.map((ingredient, idx) => (
+          <input
+            key={idx}
+            type="text"
+            name="ingredients"
+            value={ingredient}
+            onChange={(event) => handleIngredientChange(event, idx)}
+            className="mt-2 p-2 border border-gray-300 rounded-lg"
+          />
+        ))}
+        <button
+          onClick={addIngredient}
+          type="button"
+          className="my-2 mx-auto py-1 px-5 border-2 border-[#03202a] rounded-2xl">
+          Add Ingredient
+        </button>
         <label htmlFor="instructions" className="text-lg">
           Instructions
         </label>
@@ -48,7 +76,7 @@ const CreateRecipe = () => {
           id="instructions"
           name="instructions"
           onChange={handleChange}
-          className=" p-2 border border-gray-300 rounded-lg"
+          className="p-2 border border-gray-300 rounded-lg"
         />
         <label htmlFor="imageUrl" className="text-lg">
           Image URL
@@ -70,6 +98,11 @@ const CreateRecipe = () => {
           onChange={handleChange}
           className=" p-2 border border-gray-300 rounded-lg"
         />
+        <button
+          type="submit"
+          className="my-5 p-3 border-2 bg-[#03202a] border-[#ff5e00] rounded-2xl text-white">
+          Create Recipe
+        </button>
       </form>
     </div>
   );
