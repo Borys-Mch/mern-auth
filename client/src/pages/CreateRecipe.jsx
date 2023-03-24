@@ -1,13 +1,17 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useGetUserID } from "../hooks/useGetUserID";
 
 const CreateRecipe = () => {
+  const userID = useGetUserID();
+
   const [recipe, setRecipe] = useState({
     name: "",
     ingredients: [],
     instructions: "",
     imageUrl: "",
     cookingTime: 0,
-    userOwner: 0,
+    userOwner: userID,
   });
 
   const handleChange = (event) => {
@@ -26,11 +30,21 @@ const CreateRecipe = () => {
     setRecipe({ ...recipe, ingredients: [...recipe.ingredients, ""] });
   };
 
-  console.log(recipe);
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.post("http://localhost:3001/recipes", recipe);
+      alert("Recipe Created");
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <div className="container mx-auto flex flex-col">
       <h2 className="mt-5 text-center text-lg font-bold">Create Recipe</h2>
-      <form className="flex flex-col mt-5 mx-auto w-full max-w-md">
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col mt-5 mx-auto w-full max-w-md">
         <label htmlFor="name" className="text-lg">
           Name
         </label>
